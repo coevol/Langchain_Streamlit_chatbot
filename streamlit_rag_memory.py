@@ -11,9 +11,14 @@ from langchain.chains import create_history_aware_retriever, create_retrieval_ch
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_community.chat_message_histories.streamlit import StreamlitChatMessageHistory
 
+
+__import__('pysqlite3')
+import sys
+sys.modules['sqlite3'] = sys.modules.pop('pysqlite3')
+
+from langchain_chroma import Chroma
 #오픈AI API 키 설정
-YOUR_OPENAI_API_KEY = "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"
-os.environ["OPENAI_API_KEY"] = YOUR_OPENAI_API_KEY
+os.environ["OPENAI_API_KEY"] = st.secrets['YOUR_OPENAI_API_KEY']
 
 #cache_resource로 한번 실행한 결과 캐싱해두기
 @st.cache_resource
@@ -126,3 +131,4 @@ if prompt_message := st.chat_input("Your question"):
             with st.expander("참고 문서 확인"):
                 for doc in response['context']:
                     st.markdown(doc.metadata['source'], help=doc.page_content)
+
