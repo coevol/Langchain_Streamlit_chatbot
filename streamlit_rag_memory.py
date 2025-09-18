@@ -12,6 +12,8 @@ from langchain.chains import create_history_aware_retriever, create_retrieval_ch
 from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_community.chat_message_histories.streamlit import StreamlitChatMessageHistory
 
+from langchain_core.runnables import RunnablePassthrough
+from langchain_core.output_parsers import StrOutputParser
 
 __import__('pysqlite3')
 import sys
@@ -132,6 +134,7 @@ if prompt_message := st.chat_input("Your question"):
             with st.expander("참고 문서 확인"):
                 for doc in response['context']:
                     st.markdown(doc.metadata['source'], help=doc.page_content)
+
 
 
 
